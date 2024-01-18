@@ -1,5 +1,8 @@
 package sdp.exam;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -20,19 +23,14 @@ public class SDPExam2_2
       r = scanner.nextInt();
     }
     while (1 > r || r > 12);
-    System.out.println("r = " + r);
-    for (int i = r - 1; i >= 0; i--)
-    {
-      System.out.println("i=" + i);
-    }
+
     do
     {
       System.out.print("Enter c, 1≤c≤9: ");
       c = scanner.nextInt();
     }
     while (1 > c || c > 9);
-    System.out.println("c = " + c);
-    
+
     //б) създава масив, съответен на таблица с r реда и c колони, 
     //и записва в елементите му случайно избрани цели числа от интервала [−12;22];
     int[][] array = new int[r][c];
@@ -58,51 +56,89 @@ public class SDPExam2_2
       System.out.println();
     }
 
-    //г) print diagonals
-    printDiagonals(array, r, c);
-  }
+    //г)
+    List<List<Integer>> diagonals;
+    diagonals = findDiagonals(array, r, c);
 
-  public static void printDiagonals(int[][] matrix, int row, int col)
-  {
-    if (matrix == null || row <= 0 || col <= 0)
+    System.out.println("-------------- All diagonals --------------");
+
+    for (List<Integer> diagonal : diagonals)
     {
-      System.out.println("Invalid matrix");
-      return;
+      for (Integer element : diagonal)
+      {
+        System.out.print(element + " ");
+      }
+      System.out.println();
     }
 
-    System.out.println("Diagonals:");
-
-    // diagonals above the main diagonal
-    for (int k = 0; k < col; k++)
+    //г) извежда онези диагонали, в които сумата от елементите в диагонала е нечетна
+    System.out.println("-------------- Odd sum diagonals --------------");
+    for (List<Integer> diagonal : diagonals)
     {
+      int sum = 0;
+      for (Integer element : diagonal)
+      {
+        sum += element;
+      }
+      if (sum % 2 != 0)
+      {
+        for (Integer element : diagonal)
+        {
+          System.out.print(element + " ");
+        }
+        System.out.print(" (sum = " + sum + ")");
+        System.out.println();
+      }
+    }
+  }
+
+  public static List<List<Integer>> findDiagonals(int[][] array, int row, int col)
+  {
+    List<List<Integer>> diagonals = new ArrayList<>();
+    int offsetFromMainDiagonal; //отстояние от главния диагонал
+    
+    // diagonals above the main diagonal
+    // count of diagonals above the main diagonal = columns count.
+    for (offsetFromMainDiagonal = 0; offsetFromMainDiagonal < col; offsetFromMainDiagonal++)
+    {
+      // start finding the elements of the first diagonal
+      List<Integer> currentDiagonal = new ArrayList<>();
       for (int i = 0; i < row; i++)
       {
         for (int j = 0; j < col; j++)
         {
-          if (i == j - k && i >= 0 && j < col)
+          if (i == j - offsetFromMainDiagonal)
           {
-            System.out.print(matrix[i][j] + " ");
+            currentDiagonal.add(array[i][j]);
+            break;
           }
         }
       }
-      System.out.println();
+      diagonals.add(currentDiagonal);
     }
 
+    // reverse the order of the list
+    Collections.reverse(diagonals);
+
     // diagonals below the main diagonal
-    for (int k = 1; k < row; k++)
+    // count of diagonals above the main diagonal = rows count.
+    for (offsetFromMainDiagonal = 1; offsetFromMainDiagonal < row; offsetFromMainDiagonal++)
     {
-      for (int i = k; i < row; i++)
+      List<Integer> currentDiagonal = new ArrayList<>();
+      for (int i = offsetFromMainDiagonal; i < row; i++)
       {
         for (int j = 0; j < col; j++)
         {
-          if (i == j + k && i < row && j < col)
+          if (i == j + offsetFromMainDiagonal)
           {
-            System.out.print(matrix[i][j] + " ");
+            currentDiagonal.add(array[i][j]);
+            break;
           }
         }
       }
-      System.out.println();
+      diagonals.add(currentDiagonal);
     }
+    return diagonals;
   }
 
 }
