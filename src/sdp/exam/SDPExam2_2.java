@@ -97,7 +97,7 @@ public class SDPExam2_2
     List<List<Integer>> diagonals = new ArrayList<>();
     int offsetFromMainDiagonal; //отстояние от главния диагонал
     
-    // diagonals above the main diagonal
+    // diagonals above the main diagonal, starting from the main diagonal
     // count of diagonals above the main diagonal = columns count.
     for (offsetFromMainDiagonal = 0; offsetFromMainDiagonal < col; offsetFromMainDiagonal++)
     {
@@ -121,7 +121,7 @@ public class SDPExam2_2
     Collections.reverse(diagonals);
 
     // diagonals below the main diagonal
-    // count of diagonals above the main diagonal = rows count.
+    // count of diagonals below the main diagonal = rows count - 1
     for (offsetFromMainDiagonal = 1; offsetFromMainDiagonal < row; offsetFromMainDiagonal++)
     {
       List<Integer> currentDiagonal = new ArrayList<>();
