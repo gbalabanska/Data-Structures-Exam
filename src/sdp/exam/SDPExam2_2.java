@@ -41,24 +41,41 @@ public class SDPExam2_2
       for (int j = 0; j < c; j++)
       {
         // random integer in [-12, 22]
-        array[i][j] = random.nextInt(22 + 12) - 12;
+        array[i][j] = random.nextInt(23 + 12) - 12;
       }
     }
 
     //в) извежда табулирано масива;
+    System.out.println("-------------- Tabulated array --------------");
     for (int i = 0; i < array.length; i++)
     {
       for (int j = 0; j < array[i].length; j++)
       {
-        System.out.print(array[i][j] + "\t");
+        System.out.printf("%7d", array[i][j]);
       }
       System.out.println();
       System.out.println();
     }
 
-    //г)
-    List<List<Integer>> diagonals;
-    diagonals = findDiagonals(array, r, c);
+    //г)диагонали
+    List<List<Integer>> diagonals = new ArrayList<>();
+    for (int row = 0, column = c; row < r;)
+    {
+      List<Integer> currentDiagonal = new ArrayList<>();
+      for (int currentRow = row, currentColumn = column; currentRow < r && currentColumn < c; currentRow++, currentColumn++)
+      {
+        currentDiagonal.add(array[currentRow][currentColumn]);
+      }
+      diagonals.add(currentDiagonal);
+      if (column > 0)
+      {
+        column--;
+      }
+      else
+      {
+        row++;
+      }
+    }
 
     System.out.println("-------------- All diagonals --------------");
 
@@ -91,54 +108,4 @@ public class SDPExam2_2
       }
     }
   }
-
-  public static List<List<Integer>> findDiagonals(int[][] array, int row, int col)
-  {
-    List<List<Integer>> diagonals = new ArrayList<>();
-    int offsetFromMainDiagonal; //отстояние от главния диагонал
-    
-    // diagonals above the main diagonal, starting from the main diagonal
-    // count of diagonals above the main diagonal = columns count.
-    for (offsetFromMainDiagonal = 0; offsetFromMainDiagonal < col; offsetFromMainDiagonal++)
-    {
-      // start finding the elements of the first diagonal
-      List<Integer> currentDiagonal = new ArrayList<>();
-      for (int i = 0; i < row; i++)
-      {
-        for (int j = 0; j < col; j++)
-        {
-          if (i == j - offsetFromMainDiagonal)
-          {
-            currentDiagonal.add(array[i][j]);
-            break;
-          }
-        }
-      }
-      diagonals.add(currentDiagonal);
-    }
-
-    // reverse the order of the list
-    Collections.reverse(diagonals);
-
-    // diagonals below the main diagonal
-    // count of diagonals below the main diagonal = rows count - 1
-    for (offsetFromMainDiagonal = 1; offsetFromMainDiagonal < row; offsetFromMainDiagonal++)
-    {
-      List<Integer> currentDiagonal = new ArrayList<>();
-      for (int i = offsetFromMainDiagonal; i < row; i++)
-      {
-        for (int j = 0; j < col; j++)
-        {
-          if (i == j + offsetFromMainDiagonal)
-          {
-            currentDiagonal.add(array[i][j]);
-            break;
-          }
-        }
-      }
-      diagonals.add(currentDiagonal);
-    }
-    return diagonals;
-  }
-
 }
