@@ -59,7 +59,7 @@ public class SDPExam2_2
 
     //г)диагонали
     List<List<Integer>> diagonals = new ArrayList<>();
-    for (int row = 0, column = c; row < r;)
+    for (int row = 0, column = c - 1; row < r;)
     {
       List<Integer> currentDiagonal = new ArrayList<>();
       for (int currentRow = row, currentColumn = column; currentRow < r && currentColumn < c; currentRow++, currentColumn++)
