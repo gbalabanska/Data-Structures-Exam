@@ -1,7 +1,6 @@
 package sdp.exam;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -47,35 +46,16 @@ public class SDPExam2_2
 
     //в) извежда табулирано масива;
     System.out.println("-------------- Tabulated array --------------");
-    for (int i = 0; i < array.length; i++)
-    {
-      for (int j = 0; j < array[i].length; j++)
-      {
-        System.out.printf("%7d", array[i][j]);
+      for (int[] elements : array) {
+          for (int element : elements) {
+              System.out.printf("%7d", element);
+          }
+          System.out.println();
+          System.out.println();
       }
-      System.out.println();
-      System.out.println();
-    }
 
     //г)диагонали
-    List<List<Integer>> diagonals = new ArrayList<>();
-    for (int row = 0, column = c - 1; row < r;)
-    {
-      List<Integer> currentDiagonal = new ArrayList<>();
-      for (int currentRow = row, currentColumn = column; currentRow < r && currentColumn < c; currentRow++, currentColumn++)
-      {
-        currentDiagonal.add(array[currentRow][currentColumn]);
-      }
-      diagonals.add(currentDiagonal);
-      if (column > 0)
-      {
-        column--;
-      }
-      else
-      {
-        row++;
-      }
-    }
+    List<List<Integer>> diagonals = getDiagonals(c, r, array);
 
     System.out.println("-------------- All diagonals --------------");
 
@@ -107,5 +87,27 @@ public class SDPExam2_2
         System.out.println();
       }
     }
+  }
+
+  private static List<List<Integer>> getDiagonals(int c, int r, int[][] array) {
+    List<List<Integer>> diagonals = new ArrayList<>();
+    for (int row = 0, column = c - 1; row < r;)
+    {
+      List<Integer> currentDiagonal = new ArrayList<>();
+      for (int currentRow = row, currentColumn = column; currentRow < r && currentColumn < c; currentRow++, currentColumn++)
+      {
+        currentDiagonal.add(array[currentRow][currentColumn]);
+      }
+      diagonals.add(currentDiagonal);
+      if (column > 0)
+      {
+        column--;
+      }
+      else
+      {
+        row++;
+      }
+    }
+    return diagonals;
   }
 }
